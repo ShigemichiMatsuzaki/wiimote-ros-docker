@@ -12,7 +12,7 @@ services:
   catkin-build:
     container_name: catkin-build-wiimote
     image: wiimote-ros:dev
-    command: bash -c "cd /root/catkin_ws && catkin build wiimote simple_teleop_twist --cmake-args -DCMAKE_BUILD_TYPE=Debug"
+    command: bash -c "cd /root/catkin_ws && catkin build wiimote wiimote_teleop --cmake-args -DCMAKE_BUILD_TYPE=Debug"
     volumes:
       - ./catkin_ws:/root/catkin_ws
     tty: true
@@ -34,7 +34,7 @@ services:
     container_name: run-teleop
     image: wiimote-ros:dev
     network_mode: "host"
-    command: bash -c "rosrun simple_teleop_twist simple_teleop_twist_node"
+    command: bash -c "rosrun wiimote_teleop wiimote_teleop_node"
     environment:
       - ROS_MASTER_URI=http://localhost:11311
     volumes:
