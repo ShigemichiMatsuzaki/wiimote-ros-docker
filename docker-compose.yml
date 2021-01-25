@@ -1,0 +1,39 @@
+version: "2.3"
+services: 
+  master:
+    container_name: ros-master-wiimote
+    image: wiimote-ros:dev
+    network_mode: "host"
+    command: roscore
+    environment:
+      - ROS_MASTER_URI=http://localhost:11311
+    tty: true
+
+  catkin-build:
+    container_name: catkin-build-wiimote
+    image: wiimote-ros:dev
+    command: bash -c "cd /root/catkin_ws && catkin build wiimote --cmake-args -DCMAKE_BUILD_TYPE=Debug"
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+    tty: true
+
+  run-wiimote:
+    container_name: run-wiimote
+    image: wiimote-ros:dev
+    network_mode: "host"
+    command: bash -c "rosrun wiimote wiimote_node.py"
+    environment:
+      - ROS_MASTER_URI=http://localhost:11311
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+    tty: true
+    privileged: true
+    
+  bash:
+    container_name: bash-wiimote
+    image: wiimote-ros:dev
+    command: bash
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+    tty: true
+
