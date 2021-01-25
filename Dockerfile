@@ -27,39 +27,19 @@ RUN cd /root/ && git clone https://github.com/azzra/python3-wiimote && cd python
   && make \
   && make install
 
-
-#RUN cd /root/ && git clone https://github.com/abstrakraft/cwiid && cd cwiid/ \
-#  && sed -i -e 's/^\(LDLIBS.*\)/\1 -lbluetooth/g' wmdemo/Makefile.in \
-#  && aclocal && autoconf \
-#  && ./configure \
-#  && make \
-#  && make install
-
-# Install ROS melodic
-#RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-#RUN apt-key adv --keyserver 'hkp://ha.pool.sks-keyservers.net:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-#RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-
 #
 # ROS
 #
 RUN apt-get update && apt-get install -y \
   python3-catkin-tools python3-osrf-pycommon python3-rosdep \
   python-is-python3 \
-  ros-noetic-diagnostic-updater ros-noetic-roslint \
-#  python3-pip libcwiid1 libcwiid-dev \
+  ros-noetic-diagnostic-updater ros-noetic-roslint ros-noetic-joy \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/ros/noetic
 
 # Initialize the ROS environment
 RUN rosdep init && rosdep update 
-
-#RUN cd /tmp && wget http://www.kernel.org/pub/linux/bluetooth/bluez-${BLUEZ_VERSION}.tar.xz \
-#  && tar xvf bluez-${BLUEZ_VERSION}.tar.xz \
-#  && cd bluez-${BLUEZ_VERSION} && ./configure --enable-library \
-#  && make \
-#  && make install
-#RUN systemctl status bluetooth
 
 COPY ./docker_entrypoint.sh /docker_entrypoint.sh
 RUN chmod +x /docker_entrypoint.sh

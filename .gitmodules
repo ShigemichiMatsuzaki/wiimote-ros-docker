@@ -1,3 +1,6 @@
 [submodule "catkin_ws/src/joystick_drivers"]
 	path = catkin_ws/src/joystick_drivers
 	url = https://github.com/ros-drivers/joystick_drivers
+[submodule "catkin_ws/src/simple_teleop_twist"]
+	path = catkin_ws/src/simple_teleop_twist
+	url = https://aisl-serv6.aisl.cs.tut.ac.jp:20443/ShigemichiMatsuzaki/simple_teleop_twist
